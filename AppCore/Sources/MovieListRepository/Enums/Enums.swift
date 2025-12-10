@@ -1,0 +1,21 @@
+// TODO: Need to move these enums into a separate files.
+enum BaseURL: String {
+    case tmdb = "https://api.themoviedb.org"
+}
+
+enum Path: String
+{
+    case nowPlaying = "/3/movie/now_playing"
+    case popular = "/3/movie/popular"
+    case topRated = "/3/movie/top_rated"
+    case upcoming = "/3/movie/upcoming"
+}
+
+enum AccessToken: String {
+    case tmdb = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNWRiZmJkYWVmNTFkNTUxNDNhZWI0Y2RhMDEwZTY5ZiIsIm5iZiI6MTQ2NTMxMTYyNi4wNDQsInN1YiI6IjU3NTZlMTg5OTI1MTQxNmUyZDAwMzBhOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BZpM44cUZqQxRPApqlhU8IHCsRt3_80gw_LD3xOlviU"
+}
+
+enum ApiKey: String {
+    case tmdb = "fdbbfdaef51d55143ae4cd1010e69f"
+}
+

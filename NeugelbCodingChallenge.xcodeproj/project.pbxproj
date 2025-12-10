@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8889E27A2EEA36EE00526D28 /* AppCore in Resources */ = {isa = PBXBuildFile; fileRef = 8889E2792EEA36EE00526D28 /* AppCore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		8889E2182EEA2BB600526D28 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		8889E2092EEA2BB400526D28 /* NeugelbCodingChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NeugelbCodingChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8889E2172EEA2BB600526D28 /* NeugelbCodingChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeugelbCodingChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8889E2212EEA2BB600526D28 /* NeugelbCodingChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeugelbCodingChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8889E2792EEA36EE00526D28 /* AppCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppCore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +80,7 @@
 		8889E2002EEA2BB400526D28 = {
 			isa = PBXGroup;
 			children = (
+				8889E2792EEA36EE00526D28 /* AppCore */,
 				8889E20B2EEA2BB400526D28 /* NeugelbCodingChallenge */,
 				8889E21A2EEA2BB600526D28 /* NeugelbCodingChallengeTests */,
 				8889E2242EEA2BB600526D28 /* NeugelbCodingChallengeUITests */,
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8889E27A2EEA36EE00526D28 /* AppCore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
