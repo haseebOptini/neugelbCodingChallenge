@@ -16,7 +16,10 @@ public struct MovieListUseCase: MovieListUseCaseProtocol {
         let moviesDto = try await movieListRepository.fetchNowPlayingMovies()
         return map(moviesDto: moviesDto.movies)
     }
-
+    public func loadMoreMovies() async throws -> [Movie] {
+        return []
+    }
+    
     private func map(moviesDto: [MovieDTO]) -> [Movie] {
         moviesDto.map { moviesDto in
             Movie(id: moviesDto.id,
@@ -32,4 +35,5 @@ public struct MovieListUseCase: MovieListUseCaseProtocol {
                   genreIds: moviesDto.genreIds)
         }
     }
+
 }
