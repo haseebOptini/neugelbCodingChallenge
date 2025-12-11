@@ -26,7 +26,8 @@ let package = Package(
             dependencies: ["NetworkManager"]
         ),
         .target(
-            name: "MovieListRepository"),
+            name: "MovieListRepository",
+            dependencies: ["NetworkManager"]),
         .testTarget(
             name: "MovieListRepositoryTests",
             dependencies: ["NetworkManager", "MovieListRepository"]

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8816B82A2EEB0DD400F0D66D /* MovieListRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 8816B8292EEB0DD400F0D66D /* MovieListRepository */; };
+		8816B82C2EEB0DD400F0D66D /* MovieListUseCases in Frameworks */ = {isa = PBXBuildFile; productRef = 8816B82B2EEB0DD400F0D66D /* MovieListUseCases */; };
+		8816B82E2EEB0DD400F0D66D /* NetworkManager in Frameworks */ = {isa = PBXBuildFile; productRef = 8816B82D2EEB0DD400F0D66D /* NetworkManager */; };
 		8889E27A2EEA36EE00526D28 /* AppCore in Resources */ = {isa = PBXBuildFile; fileRef = 8889E2792EEA36EE00526D28 /* AppCore */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +60,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8816B82A2EEB0DD400F0D66D /* MovieListRepository in Frameworks */,
+				8816B82C2EEB0DD400F0D66D /* MovieListUseCases in Frameworks */,
+				8816B82E2EEB0DD400F0D66D /* NetworkManager in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +83,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8816B8282EEB0DD400F0D66D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8889E2002EEA2BB400526D28 = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +97,7 @@
 				8889E20B2EEA2BB400526D28 /* NeugelbCodingChallenge */,
 				8889E21A2EEA2BB600526D28 /* NeugelbCodingChallengeTests */,
 				8889E2242EEA2BB600526D28 /* NeugelbCodingChallengeUITests */,
+				8816B8282EEB0DD400F0D66D /* Frameworks */,
 				8889E20A2EEA2BB400526D28 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -118,6 +132,9 @@
 			);
 			name = NeugelbCodingChallenge;
 			packageProductDependencies = (
+				8816B8292EEB0DD400F0D66D /* MovieListRepository */,
+				8816B82B2EEB0DD400F0D66D /* MovieListUseCases */,
+				8816B82D2EEB0DD400F0D66D /* NetworkManager */,
 			);
 			productName = NeugelbCodingChallenge;
 			productReference = 8889E2092EEA2BB400526D28 /* NeugelbCodingChallenge.app */;
@@ -600,6 +617,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8816B8292EEB0DD400F0D66D /* MovieListRepository */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MovieListRepository;
+		};
+		8816B82B2EEB0DD400F0D66D /* MovieListUseCases */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MovieListUseCases;
+		};
+		8816B82D2EEB0DD400F0D66D /* NetworkManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NetworkManager;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8889E2012EEA2BB400526D28 /* Project object */;
 }

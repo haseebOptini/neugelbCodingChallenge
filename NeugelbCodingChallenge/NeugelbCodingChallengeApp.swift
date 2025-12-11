@@ -1,17 +1,13 @@
-//
-//  NeugelbCodingChallengeApp.swift
-//  NeugelbCodingChallenge
-//
-//  Created by Abdul Haseeb on 10.12.25.
-//
-
 import SwiftUI
 
 @main
 struct NeugelbCodingChallengeApp: App {
+    @StateObject private var coordinator: Coordinator = Coordinator()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppView()
+                .environmentObject(self.coordinator)
         }
     }
 }
