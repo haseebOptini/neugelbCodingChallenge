@@ -24,6 +24,9 @@ final class MoviesListViewModel: ObservableObject {
     // MARK: - Private properties
     private let movieListUseCase: MovieListUseCaseProtocol
     private var movies: [Movie] = []
+    private var lastTriggeredMovieId: Int?
+    private let loadMoreThreshold = 1 // Load more when 3 items from the end
+    
     // MARK: - Init
     init(movieListUseCase: MovieListUseCaseProtocol) {
         self.movieListUseCase = movieListUseCase
@@ -33,37 +36,57 @@ final class MoviesListViewModel: ObservableObject {
     func fetchNowPlayingMovies() async {
         do {
             state = .loading
-            movies = try await movieListUseCase.fetchNowPlayingMovies()
+            lastTriggeredMovieId = nil
+            let movies = try await movieListUseCase.fetchNowPlayingMovies()
             let moviesViewModel = mapMoviesToViewModels(movies)
             state = .loaded(moviesViewModel)
         } catch {
             print("alog::MovieListViewModel::fetchNowPlayingMovies::error: \(error)")
+            state = .error
         }
     }
+
     func loadMoreIfNeeded(currentMovie: Movie?) {
         guard let currentMovie = currentMovie,
               case .loaded(let currentMovies) = state,
               let index = currentMovies.firstIndex(where: { $0.id == currentMovie.id }),
-              index >= currentMovies.count else {
+              index >= currentMovies.count - loadMoreThreshold,
+              !isLoadingMore else {
             return
         }
-        
+        print("alog::This is the time that we start loading more movies")
+        lastTriggeredMovieId = currentMovie.id
         // Load more if not already loading
-        if !isLoadingMore {
-            loadMoreMovies()
+        Task {
+            await loadMoreMovies()
         }
     }
     // MARK: - Private properties
     private func mapMoviesToViewModels(_ movies: [Movie]) -> [MovieViewModel] {
-        return movies.map { movie in
-            MovieViewModel(movie: movie)
-        }
+        return movies.map { MovieViewModel(movie: $0)}
     }
 
-    private func loadMoreMovies() {
+    private func loadMoreMovies() async {
         guard !isLoadingMore else {
             return
         }
-        print("we should call use case to load more movies")
+        isLoadingMore = true
+        do {
+            let newMovies = try await movieListUseCase.loadMoreMovies()
+            let existingIds = Set(movies.map { $0.id })
+            let uniqueNewMovies = newMovies.filter { !existingIds.contains($0.id) }
+            
+            if !newMovies.isEmpty {
+                movies.append(contentsOf: uniqueNewMovies)
+                if case .loaded = state {
+                    let moviesViewModel = mapMoviesToViewModels(movies)
+                    state = .loaded(moviesViewModel)
+                    lastTriggeredMovieId = nil
+                }
+            }
+        } catch {
+            print("alog::MovieListViewModel::loadMoreMovies::error: \(error)")
+        }
+        isLoadingMore = false
     }
 }

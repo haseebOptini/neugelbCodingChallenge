@@ -1,3 +1,3 @@
 public protocol MovieListRepositoryProtocol {
-    func fetchNowPlayingMovies() async throws -> MoviesDTO
+    func fetchNowPlayingMovies(page: Int) async throws -> MoviesDTO
 }

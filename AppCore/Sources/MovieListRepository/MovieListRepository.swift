@@ -8,8 +8,8 @@ public struct MovieListRepository: MovieListRepositoryProtocol {
         self.networkManager = networkManager
     }
 
-    public func fetchNowPlayingMovies() async throws -> MoviesDTO {
-        let endPoint = NowPlayingMoviesEndPoint()
+    public func fetchNowPlayingMovies(page: Int = 1) async throws -> MoviesDTO {
+        let endPoint = NowPlayingMoviesEndPoint(page: page)
         return try await networkManager.request(endPoint, type: MoviesDTO.self)
     }
 }

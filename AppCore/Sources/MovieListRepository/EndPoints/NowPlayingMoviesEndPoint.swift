@@ -2,16 +2,23 @@ import NetworkManager
 import Foundation
 
 public struct NowPlayingMoviesEndPoint: EndpointProtocol {
+    public let page: Int
     public var url: String = BaseURL.tmdb.rawValue
     
     public var path: String = Path.nowPlaying.rawValue
     
     public var httpMethod: HTTPMethod = .get
     
-    public var queryParameters: [URLQueryItem] = [
-        URLQueryItem(name: "language", value: "en-US"),
-        URLQueryItem(name: "page", value: "1"),
-    ]
+    public var queryParameters: [URLQueryItem] {
+        return [
+            URLQueryItem(name: "language", value: "en-US"),
+            URLQueryItem(name: "page", value: "\(page)"),
+        ]
+    }
+    
+    public init(page: Int = 1) {
+        self.page = page
+    }
 
     // TODO: Move this from hard coded string to enum value
     public var headers: [String: String]? {

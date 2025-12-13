@@ -7,7 +7,7 @@ public struct Movie: Sendable, Equatable {
     public let originalLanguage: String
     public let overview: String
     public let releaseDate: String
-    public let posterPath: String
+    public let posterPath: String?
     public var voteAverage: Double
     public var voteCount: Int
     public var adult: Bool
