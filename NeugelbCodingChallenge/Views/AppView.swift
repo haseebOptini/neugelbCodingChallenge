@@ -1,4 +1,5 @@
 import SwiftUI
+import MovieListUseCases
 
 struct AppView: View {
     @EnvironmentObject private var coordinator: Coordinator
@@ -7,16 +8,17 @@ struct AppView: View {
         NavigationStack(path: $coordinator.path) {
             VStack {}
                 .onAppear {
-                    coordinator.push(route: .articles)
+                    coordinator.push(route: .moviesList)
                 }
                 .navigationDestination(for: Route.self) { route in
                     switch route {
-                    case .articles:
-                        EmptyView()
+                    case .moviesList:
                         MoviesListView(viewModel: MovieListViewModelFactory.makeMoviesListViewModel())
                             .navigationBarBackButtonHidden()
-                    case .articlesDetail:
-                        EmptyView()
+                    case .movieDetail(let movie):
+                        MovieDetailsView(
+                            viewModel: MovieListViewModelFactory.makeMovieDetailsViewModel(movie: movie)
+                        )
                     }
                 }
         }

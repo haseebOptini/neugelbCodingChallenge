@@ -1,8 +1,9 @@
 import Foundation
+import MovieListUseCases
 
 enum Route: Hashable {
-    case articles
-    case articlesDetail
+    case moviesList
+    case movieDetail(Movie)
 }
 
 final class Coordinator: ObservableObject {

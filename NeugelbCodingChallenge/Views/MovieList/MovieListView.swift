@@ -3,6 +3,7 @@ import MovieListUseCases
 
 struct MoviesListView: View {
     @StateObject var viewModel: MoviesListViewModel
+    @EnvironmentObject private var coordinator: Coordinator
     
     init(viewModel: MoviesListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -30,6 +31,7 @@ struct MoviesListView: View {
         }
     }
     
+    // TODO: Why we need to add ViewBuilder
     private func moviesView(moviesListViewModels: [MovieViewModel]) -> some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 12) {
@@ -41,8 +43,11 @@ struct MoviesListView: View {
                             .frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
                             .contentShape(Rectangle())
                             .background(Color.white)
-                            .onAppear {
-                                viewModel.loadMoreIfNeeded(currentMovie: movieViewModel.movie)
+                            .onTapGesture {
+                                coordinator.push(route: .movieDetail(movieViewModel.movie))
+                            }
+                            .task {
+                               await viewModel.loadMoreIfNeeded(currentMovie: movieViewModel.movie)
                             }
                     }
                 }
@@ -59,23 +64,6 @@ struct MoviesListView: View {
     }
 }
 
-// TODO: Need to provide the proper implementation for MovieView
-struct MoviesView: View {
-    var moviesListViewModels: [MovieViewModel]
-    var body: some View {
-        ScrollView {
-            LazyVStack(alignment: .leading, spacing: 12) {
-                ForEach(moviesListViewModels) { movieViewModel in
-                    MovieView(movieViewModel: movieViewModel)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .contentShape(Rectangle())
-                }
-            }
-            .padding()
-        }
-    }
-}
-
 struct EmptyStateView: View {
     var body: some View {
         VStack {
@@ -89,6 +77,7 @@ struct EmptyStateView: View {
 }
 
 // TODO: Need to provide proper implementation for Error view and move this to a separate file.
+// TODO: Need to make error view shared so we dont need to implement different error for each view.
 struct ErrorView: View {
     let viewModel: MoviesListViewModel
     

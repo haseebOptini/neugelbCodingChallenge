@@ -6,6 +6,7 @@ public enum HTTPMethod: String, Sendable {
     case delete = "DELETE"
 }
 
+// TODO: add errors from TMDB.
 public enum ServiceError: Error {
     case invalidURL
     case invalidResponse

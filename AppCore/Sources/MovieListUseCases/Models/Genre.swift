@@ -1,0 +1,9 @@
+import Foundation
+
+// MARK: - Genre
+public struct Genre: Sendable, Equatable {
+    public let id: Int
+    public let name: String
+}
+
+

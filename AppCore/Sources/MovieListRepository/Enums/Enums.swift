@@ -1,4 +1,3 @@
-// TODO: Need to move these enums into a separate files.
 enum BaseURL: String {
     case tmdb = "https://api.themoviedb.org"
 }
@@ -6,9 +5,7 @@ enum BaseURL: String {
 enum Path: String
 {
     case nowPlaying = "/3/movie/now_playing"
-    case popular = "/3/movie/popular"
-    case topRated = "/3/movie/top_rated"
-    case upcoming = "/3/movie/upcoming"
+    case details = "/3/movie"
 }
 
 enum AccessToken: String {

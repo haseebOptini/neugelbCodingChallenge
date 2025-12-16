@@ -24,7 +24,6 @@ final class MoviesListViewModel: ObservableObject {
     // MARK: - Private properties
     private let movieListUseCase: MovieListUseCaseProtocol
     private var movies: [Movie] = []
-    private var lastTriggeredMovieId: Int?
     private let loadMoreThreshold = 1 // Load more when 3 items from the end
     
     // MARK: - Init
@@ -36,7 +35,6 @@ final class MoviesListViewModel: ObservableObject {
     func fetchNowPlayingMovies() async {
         do {
             state = .loading
-            lastTriggeredMovieId = nil
             let movies = try await movieListUseCase.fetchNowPlayingMovies()
             let moviesViewModel = mapMoviesToViewModels(movies)
             state = .loaded(moviesViewModel)
@@ -46,7 +44,8 @@ final class MoviesListViewModel: ObservableObject {
         }
     }
 
-    func loadMoreIfNeeded(currentMovie: Movie?) {
+    // TODO: Need to improve naming for better code readability. also check if we can make movie non optional
+    func loadMoreIfNeeded(currentMovie: Movie?) async {
         guard let currentMovie = currentMovie,
               case .loaded(let currentMovies) = state,
               let index = currentMovies.firstIndex(where: { $0.id == currentMovie.id }),
@@ -55,11 +54,8 @@ final class MoviesListViewModel: ObservableObject {
             return
         }
         print("alog::This is the time that we start loading more movies")
-        lastTriggeredMovieId = currentMovie.id
         // Load more if not already loading
-        Task {
-            await loadMoreMovies()
-        }
+        await loadMoreMovies()
     }
     // MARK: - Private properties
     private func mapMoviesToViewModels(_ movies: [Movie]) -> [MovieViewModel] {
@@ -81,7 +77,6 @@ final class MoviesListViewModel: ObservableObject {
                 if case .loaded = state {
                     let moviesViewModel = mapMoviesToViewModels(movies)
                     state = .loaded(moviesViewModel)
-                    lastTriggeredMovieId = nil
                 }
             }
         } catch {

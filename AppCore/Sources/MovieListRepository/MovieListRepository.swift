@@ -12,4 +12,10 @@ public struct MovieListRepository: MovieListRepositoryProtocol {
         let endPoint = NowPlayingMoviesEndPoint(page: page)
         return try await networkManager.request(endPoint, type: MoviesDTO.self)
     }
+
+    public func fetchMovieDetails(id: Int) async throws -> MovieDetailsDTO {
+        let endPoint = MoviesDetailsEndPoint(movieId: id)
+        return try await networkManager.request(endPoint, type: MovieDetailsDTO.self)
+    }
+
 }

@@ -1,5 +1,6 @@
 import Foundation
 
+ // TODO: Need to keep the total number of pages also in actor.
 public actor PageManagerActor: PageManagerActorProtocol {
     private var currentPage: Int
     

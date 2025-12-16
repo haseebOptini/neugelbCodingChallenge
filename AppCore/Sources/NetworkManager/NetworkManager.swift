@@ -12,6 +12,7 @@ public final class NetworkClient: NetworkManagerProtocol {
     }
     
     // MARK: - NetworkLayerProtocol
+    // TODO: Need to improve Network Layer as per errors given in TMDB.
     public func request<T: Decodable>(_ endPoint: EndpointProtocol, type:T.Type ) async throws -> T {
         let request = try makeRequest(endPoint: endPoint)
         let (data, response) = try await session.data(for: request)

@@ -14,8 +14,8 @@ public struct MovieListUseCase: MovieListUseCaseProtocol {
     }
 
     // MARK: - MovieListUseCaseProtocol
+    // TODO: Need to move these two functions into one rather than having multiple functions.
     public func fetchNowPlayingMovies() async throws -> [Movie] {
-        // Reset to page 1 for initial fetch
         await pageManager.reset()
         let page = await pageManager.getCurrentPage()
         let moviesDto = try await movieListRepository.fetchNowPlayingMovies(page: page)
@@ -29,7 +29,8 @@ public struct MovieListUseCase: MovieListUseCaseProtocol {
         await pageManager.incrementPage()
         return map(moviesDto: moviesDto.movies)
     }
-    
+
+    // MARK: - Private methods
     private func map(moviesDto: [MovieDTO]) -> [Movie] {
         moviesDto.map { moviesDto in
             Movie(id: moviesDto.id,
