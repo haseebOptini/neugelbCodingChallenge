@@ -26,7 +26,9 @@ struct MovieDetailsView: View {
             movieDetailsContent(movieDetailViewModel: movieDetailViewModel)
             
         case .error:
-            MovieDetailsErrorView(viewModel: viewModel)
+            ErrorView {
+                await viewModel.fetchMovieDetails()
+            }
         }
     }
     
@@ -188,41 +190,3 @@ struct MovieDetailsView: View {
     }
 }
 
-// TODO: Need to provide proper implementation for Error view and move this to a separate file.
-struct MovieDetailsErrorView: View {
-    let viewModel: MovieDetailsViewModel
-    
-    var body: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "exclamationmark.triangle")
-                .font(.system(size: 60))
-                .foregroundColor(.orange)
-            
-            Text("Unable to Load Movie Details")
-                .font(.headline)
-                .fontWeight(.bold)
-            
-            Text("We encountered an error while fetching movie details. Please check your connection and try again.")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
-            
-            Button(action: {
-                Task {
-                    await viewModel.fetchMovieDetails()
-                }
-            }) {
-                Text("Retry")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: 200)
-                    .padding()
-                    .background(Color.blue)
-                    .cornerRadius(10)
-            }
-            .padding(.top, 8)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-}

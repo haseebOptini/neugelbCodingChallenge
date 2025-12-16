@@ -13,11 +13,11 @@ struct AppView: View {
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .moviesList:
-                        MoviesListView(viewModel: MovieListViewModelFactory.makeMoviesListViewModel())
+                        MoviesListView(viewModel: ViewModelFactory.makeMoviesListViewModel())
                             .navigationBarBackButtonHidden()
                     case .movieDetail(let movie):
                         MovieDetailsView(
-                            viewModel: MovieListViewModelFactory.makeMovieDetailsViewModel(movie: movie)
+                            viewModel: ViewModelFactory.makeMovieDetailsViewModel(movie: movie)
                         )
                     }
                 }

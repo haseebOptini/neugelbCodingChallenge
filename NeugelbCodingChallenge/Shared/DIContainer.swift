@@ -30,7 +30,7 @@ struct DIContainer {
 
 // TODO: Need to create a separate file for this but for now creating this in the same file
 @MainActor
-struct MovieListViewModelFactory {
+struct ViewModelFactory {
     static func makeMoviesListViewModel() -> MoviesListViewModel {
         MoviesListViewModel(movieListUseCase: DIContainer.shared.movieListUseCases())
     }

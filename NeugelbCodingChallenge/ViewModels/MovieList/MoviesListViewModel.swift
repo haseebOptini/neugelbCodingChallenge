@@ -24,7 +24,7 @@ final class MoviesListViewModel: ObservableObject {
     // MARK: - Private properties
     private let movieListUseCase: MovieListUseCaseProtocol
     private var movies: [Movie] = []
-    private let loadMoreThreshold = 1 // Load more when 3 items from the end
+    private let loadMoreThreshold = 1
     
     // MARK: - Init
     init(movieListUseCase: MovieListUseCaseProtocol) {
@@ -72,7 +72,7 @@ final class MoviesListViewModel: ObservableObject {
             let existingIds = Set(movies.map { $0.id })
             let uniqueNewMovies = newMovies.filter { !existingIds.contains($0.id) }
             
-            if !newMovies.isEmpty {
+            if !uniqueNewMovies.isEmpty {
                 movies.append(contentsOf: uniqueNewMovies)
                 if case .loaded = state {
                     let moviesViewModel = mapMoviesToViewModels(movies)

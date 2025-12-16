@@ -27,7 +27,9 @@ struct MoviesListView: View {
             moviesView(moviesListViewModels: moviesViewModels)
             
         case .error:
-            ErrorView(viewModel: viewModel)
+            ErrorView {
+                await viewModel.fetchNowPlayingMovies()
+            }
         }
     }
     
@@ -79,7 +81,11 @@ struct EmptyStateView: View {
 // TODO: Need to provide proper implementation for Error view and move this to a separate file.
 // TODO: Need to make error view shared so we dont need to implement different error for each view.
 struct ErrorView: View {
-    let viewModel: MoviesListViewModel
+    let onRetry: () async -> Void
+    
+    init(onRetry: @escaping () async -> Void) {
+        self.onRetry = onRetry
+    }
     
     var body: some View {
         VStack(spacing: 20) {
@@ -99,7 +105,7 @@ struct ErrorView: View {
             
             Button(action: {
                 Task {
-                    await viewModel.fetchNowPlayingMovies()
+                    await onRetry()
                 }
             }) {
                 Text("Retry")
