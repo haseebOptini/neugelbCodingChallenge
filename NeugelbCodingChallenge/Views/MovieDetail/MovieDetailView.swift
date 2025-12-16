@@ -10,6 +10,7 @@ struct MovieDetailsView: View {
     
     var body: some View {
         content
+            .navigationBarTitleDisplayMode(.inline)
             .task {
                 await viewModel.fetchMovieDetails()
             }
@@ -23,7 +24,7 @@ struct MovieDetailsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             
         case .loaded(let movieDetailViewModel):
-            movieDetailsContent(movieDetailViewModel: movieDetailViewModel)
+            movieDetailsContent(movieDetails: movieDetailViewModel.movieDetails)
             
         case .error:
             ErrorView {
@@ -33,146 +34,38 @@ struct MovieDetailsView: View {
     }
     
     @ViewBuilder
-    private func movieDetailsContent(movieDetailViewModel: MovieDetailViewModel) -> some View {
+    private func movieDetailsContent(movieDetails: MovieDetails) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                // Poster Image
-                if let posterURL = movieDetailViewModel.movieDetails.posterPath {
-                    ImageView(imageURL: posterURL)
-                        .frame(height: 400)
-                        .clipped()
-                        .cornerRadius(8)
+                MoviePosterView(posterURL: movieDetails.posterPath)
+                MovieHeaderView(movieDetails: movieDetails)
+                
+                if let overview = movieDetails.overview, !overview.isEmpty {
+                    OverviewView(overview: overview)
                 }
                 
-                // Title and Tagline
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(movieDetailViewModel.movieDetails.title)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    
-                    if let tagline = movieDetailViewModel.movieDetails.tagline, !tagline.isEmpty {
-                        Text(tagline)
-                            .font(.title3)
-                            .foregroundColor(.secondary)
-                            .italic()
-                    }
-                }
-                .padding(.horizontal)
-                
-                // Overview
-                if let overview = movieDetailViewModel.movieDetails.overview, !overview.isEmpty {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Overview")
-                            .font(.headline)
-                        Text(overview)
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                    }
-                    .padding(.horizontal)
+                if let genres = movieDetails.genres, !genres.isEmpty {
+                    GenresView(genres: genres)
                 }
                 
-                // Genres
-                if let genres = movieDetailViewModel.movieDetails.genres, !genres.isEmpty {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Genres")
-                            .font(.headline)
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 8) {
-                                ForEach(genres, id: \.id) { genre in
-                                    Text(genre.name)
-                                        .font(.caption)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 6)
-                                        .background(Color.blue.opacity(0.2))
-                                        .foregroundColor(.blue)
-                                        .cornerRadius(12)
-                                }
-                            }
-                        }
-                    }
-                    .padding(.horizontal)
+                metadataSection(movieDetails: movieDetails)
+                
+                if let companies = movieDetails.productionCompanies, !companies.isEmpty {
+                    ProductionCompaniesView(companies: companies)
                 }
                 
-                // Release Date
-                if let releaseDate = movieDetailViewModel.movieDetails.releaseDate, !releaseDate.isEmpty {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Release Date")
-                            .font(.headline)
-                        Text(releaseDate)
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                    }
-                    .padding(.horizontal)
+                if let countries = movieDetails.productionCountries, !countries.isEmpty {
+                    ProductionCountriesView(countries: countries)
                 }
                 
-                // Runtime
-                if let runtime = movieDetailViewModel.movieDetails.runtime {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Runtime")
-                            .font(.headline)
-                        Text("\(runtime) minutes")
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                    }
-                    .padding(.horizontal)
+                if let languages = movieDetails.spokenLanguages, !languages.isEmpty {
+                    SpokenLanguagesView(languages: languages)
                 }
                 
-                // Rating
-                if let voteAverage = movieDetailViewModel.movieDetails.voteAverage {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Rating")
-                            .font(.headline)
-                        HStack(spacing: 4) {
-                            Image(systemName: "star.fill")
-                                .foregroundColor(.yellow)
-                            Text(String(format: "%.1f", voteAverage))
-                                .font(.body)
-                                .foregroundColor(.secondary)
-                            if let voteCount = movieDetailViewModel.movieDetails.voteCount {
-                                Text("(\(voteCount) votes)")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                    .padding(.horizontal)
-                }
+                financialInfoSection(movieDetails: movieDetails)
                 
-                // Production Companies
-                if let productionCompanies = movieDetailViewModel.movieDetails.productionCompanies, !productionCompanies.isEmpty {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Production Companies")
-                            .font(.headline)
-                        ForEach(productionCompanies, id: \.id) { company in
-                            Text(company.name)
-                                .font(.body)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                    .padding(.horizontal)
-                }
-                
-                // Budget and Revenue
-                if let budget = movieDetailViewModel.movieDetails.budget, budget > 0 {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Budget")
-                            .font(.headline)
-                        Text(formatCurrency(budget))
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                    }
-                    .padding(.horizontal)
-                }
-                
-                if let revenue = movieDetailViewModel.movieDetails.revenue, revenue > 0 {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Revenue")
-                            .font(.headline)
-                        Text(formatCurrency(revenue))
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                    }
-                    .padding(.horizontal)
+                if let homepage = movieDetails.homepage, !homepage.isEmpty {
+                    HomepageView(url: homepage)
                 }
             }
             .padding(.vertical)
@@ -180,12 +73,42 @@ struct MovieDetailsView: View {
         .background(Color.white)
     }
     
-    private func formatCurrency(_ amount: Int) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencyCode = "USD"
-        formatter.maximumFractionDigits = 0
-        return formatter.string(from: NSNumber(value: amount)) ?? "$\(amount)"
+    @ViewBuilder
+    private func metadataSection(movieDetails: MovieDetails) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            if let releaseDate = movieDetails.releaseDate, !releaseDate.isEmpty {
+                ReleaseDateView(releaseDate: releaseDate)
+            }
+            
+            if let runtime = movieDetails.runtime {
+                RuntimeView(runtime: runtime)
+            }
+            
+            if let voteAverage = movieDetails.voteAverage {
+                RatingView(voteAverage: voteAverage, voteCount: movieDetails.voteCount)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func financialInfoSection(movieDetails: MovieDetails) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            if let budget = movieDetails.budget, budget > 0 {
+                InfoSection(title: "Budget") {
+                    Text(CurrencyFormatter.format(budget))
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                }
+            }
+            
+            if let revenue = movieDetails.revenue, revenue > 0 {
+                InfoSection(title: "Revenue") {
+                    Text(CurrencyFormatter.format(revenue))
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                }
+            }
+        }
     }
 }
 
