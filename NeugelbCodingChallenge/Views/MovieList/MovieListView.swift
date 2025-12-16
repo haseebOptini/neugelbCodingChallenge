@@ -23,8 +23,8 @@ struct MoviesListView: View {
             ProgressView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             
-        case .loaded(let moviesViewModels):
-            moviesView(moviesListViewModels: moviesViewModels)
+        case .loaded(let movies):
+            moviesView(movies: movies)
             
         case .error:
             ErrorView {
@@ -33,22 +33,22 @@ struct MoviesListView: View {
         }
     }
     
-    private func moviesView(moviesListViewModels: [MovieViewModel]) -> some View {
+    private func moviesView(movies: [Movie]) -> some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 12) {
-                if moviesListViewModels.isEmpty {
+                if movies.isEmpty {
                     EmptyStateView()
                 } else {
-                    ForEach(moviesListViewModels, id: \.id) { movieViewModel in
-                        MovieView(movieViewModel: movieViewModel)
+                    ForEach(movies, id: \.id) { movie in
+                        MovieView(movie: movie)
                             .frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
                             .contentShape(Rectangle())
                             .background(Color.white)
                             .onTapGesture {
-                                coordinator.push(route: .movieDetail(movieViewModel.movie))
+                                coordinator.push(route: .movieDetail(movie))
                             }
                             .task {
-                               await viewModel.loadMoreIfNeeded(currentMovie: movieViewModel.movie)
+                               await viewModel.loadMoreIfNeeded(currentMovie: movie)
                             }
                     }
                 }

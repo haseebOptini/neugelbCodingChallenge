@@ -11,7 +11,7 @@ import Foundation
 enum ViewState: Equatable {
     case initial
     case loading
-    case loaded([MovieViewModel])
+    case loaded([Movie])
     case error
 }
 
@@ -31,13 +31,12 @@ final class MoviesListViewModel: ObservableObject {
         self.movieListUseCase = movieListUseCase
     }
     
-    // TODO: Need to add the logic for pagination and refreshing logic
     func fetchNowPlayingMovies() async {
         do {
             state = .loading
             let movies = try await movieListUseCase.fetchMovies(resetPagination: true)
-            let moviesViewModel = mapMoviesToViewModels(movies)
-            state = .loaded(moviesViewModel)
+            self.movies = movies
+            state = .loaded(movies)
         } catch {
             print("alog::MovieListViewModel::fetchNowPlayingMovies::error: \(error)")
             state = .error
@@ -57,10 +56,6 @@ final class MoviesListViewModel: ObservableObject {
         // Load more if not already loading
         await loadMoreMovies()
     }
-    // MARK: - Private properties
-    private func mapMoviesToViewModels(_ movies: [Movie]) -> [MovieViewModel] {
-        return movies.map { MovieViewModel(movie: $0)}
-    }
 
     private func loadMoreMovies() async {
         guard !isLoadingMore else {
@@ -75,8 +70,7 @@ final class MoviesListViewModel: ObservableObject {
             if !uniqueNewMovies.isEmpty {
                 movies.append(contentsOf: uniqueNewMovies)
                 if case .loaded = state {
-                    let moviesViewModel = mapMoviesToViewModels(movies)
-                    state = .loaded(moviesViewModel)
+                    state = .loaded(movies)
                 }
             }
         } catch {
