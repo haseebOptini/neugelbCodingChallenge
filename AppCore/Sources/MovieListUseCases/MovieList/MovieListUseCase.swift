@@ -34,18 +34,26 @@ public struct MovieListUseCase: MovieListUseCaseProtocol {
 
     // MARK: - Private methods
     private func map(moviesDto: [MovieDTO]) -> [Movie] {
-        moviesDto.map { moviesDto in
-            Movie(id: moviesDto.id,
-                  title: moviesDto.title,
-                  originalTitle: moviesDto.originalTitle,
-                  originalLanguage: moviesDto.originalLanguage,
-                  overview: moviesDto.overview,
-                  releaseDate: moviesDto.releaseDate,
-                  posterPath: moviesDto.posterPath,
-                  voteAverage: moviesDto.voteAverage,
-                  voteCount: moviesDto.voteCount,
-                  adult: moviesDto.adult,
-                  genreIds: moviesDto.genreIds)
+        moviesDto.map { dto in
+            let posterURL: String?
+            if let posterPath = dto.posterPath {
+                posterURL = ImageBaseURL.tmdb.rawValue + posterPath
+            } else {
+                posterURL = nil
+            }
+            
+            return Movie(id: dto.id,
+                         title: dto.title,
+                         originalTitle: dto.originalTitle,
+                         originalLanguage: dto.originalLanguage,
+                         overview: dto.overview,
+                         releaseDate: dto.releaseDate,
+                         posterPath: posterURL,
+                         voteAverage: dto.voteAverage,
+                         voteCount: dto.voteCount,
+                         adult: dto.adult,
+                         backdropPath: dto.backdropPath,
+                         genreIds: dto.genreIds)
         }
     }
 

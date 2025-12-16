@@ -17,7 +17,14 @@ public struct MovieDetailsUseCase: MovieDetailsUseCaseProtocol {
 
     // MARK: - Private methods
     private func map(movieDetailsDto: MovieDetailsDTO) -> MovieDetails {
-        MovieDetails(
+        let posterURL: String?
+        if let posterPath = movieDetailsDto.posterPath {
+            posterURL = ImageBaseURL.tmdb.rawValue + posterPath
+        } else {
+            posterURL = nil
+        }
+        
+        return MovieDetails(
             id: movieDetailsDto.id,
             adult: movieDetailsDto.adult,
             backdropPath: movieDetailsDto.backdropPath,
@@ -30,7 +37,7 @@ public struct MovieDetailsUseCase: MovieDetailsUseCaseProtocol {
             originalTitle: movieDetailsDto.originalTitle,
             overview: movieDetailsDto.overview,
             popularity: movieDetailsDto.popularity,
-            posterPath: movieDetailsDto.posterPath,
+            posterPath: posterURL,
             productionCompanies: map(productionCompaniesDto: movieDetailsDto.productionCompanies),
             productionCountries: map(productionCountriesDto: movieDetailsDto.productionCountries),
             releaseDate: movieDetailsDto.releaseDate,

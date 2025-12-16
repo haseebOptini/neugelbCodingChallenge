@@ -14,15 +14,10 @@ final class MovieViewModel: ObservableObject, Equatable, Identifiable {
         movie.overview
     }
     var imageURL: String {
-        guard let posterPath = movie.posterPath else {
-            return ""
-        }
-        return MovieViewModel.baseUrl + posterPath
+        movie.posterPath ?? ""
     }
 
     var id: Int { movie.id }
-    // MARK: - Private properties
-    private static let baseUrl = "https://image.tmdb.org/t/p/w500"
     
     // MARK: - Init
     init(movie: Movie) {

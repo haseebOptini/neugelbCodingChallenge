@@ -37,9 +37,8 @@ struct MovieDetailsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 // Poster Image
-                if let posterPath = movieDetailViewModel.movieDetails.posterPath {
-                    let imageURL = "https://image.tmdb.org/t/p/w500" + posterPath
-                    ImageView(imageURL: imageURL)
+                if let posterURL = movieDetailViewModel.movieDetails.posterPath {
+                    ImageView(imageURL: posterURL)
                         .frame(height: 400)
                         .clipped()
                         .cornerRadius(8)

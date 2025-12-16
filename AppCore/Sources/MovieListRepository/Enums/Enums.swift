@@ -2,6 +2,10 @@ enum BaseURL: String {
     case tmdb = "https://api.themoviedb.org"
 }
 
+public enum ImageBaseURL: String {
+    case tmdb = "https://image.tmdb.org/t/p/w500"
+}
+
 enum Path: String
 {
     case nowPlaying = "/3/movie/now_playing"
