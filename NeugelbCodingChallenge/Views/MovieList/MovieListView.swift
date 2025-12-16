@@ -12,7 +12,7 @@ struct MoviesListView: View {
     var body: some View {
         content
             .task {
-                await viewModel.fetchNowPlayingMovies()
+                await viewModel.fetchMovies()
             }
     }
     
@@ -28,7 +28,7 @@ struct MoviesListView: View {
             
         case .error:
             ErrorView {
-                await viewModel.fetchNowPlayingMovies()
+                await viewModel.fetchMovies()
             }
         }
     }
@@ -48,7 +48,7 @@ struct MoviesListView: View {
                                 coordinator.push(route: .movieDetail(movie))
                             }
                             .task {
-                               await viewModel.loadMoreIfNeeded(currentMovie: movie)
+                               await viewModel.fetchMoreMoviesIfNeeded(currentMovie: movie)
                             }
                     }
                 }
