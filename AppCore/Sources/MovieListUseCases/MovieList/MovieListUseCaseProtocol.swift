@@ -1,4 +1,3 @@
 public protocol MovieListUseCaseProtocol {
-    func fetchNowPlayingMovies() async throws -> [Movie]
-    func loadMoreMovies() async throws -> [Movie]
+    func fetchMovies(resetPagination: Bool) async throws -> [Movie]
 }

@@ -35,7 +35,7 @@ final class MoviesListViewModel: ObservableObject {
     func fetchNowPlayingMovies() async {
         do {
             state = .loading
-            let movies = try await movieListUseCase.fetchNowPlayingMovies()
+            let movies = try await movieListUseCase.fetchMovies(resetPagination: true)
             let moviesViewModel = mapMoviesToViewModels(movies)
             state = .loaded(moviesViewModel)
         } catch {
@@ -68,7 +68,7 @@ final class MoviesListViewModel: ObservableObject {
         }
         isLoadingMore = true
         do {
-            let newMovies = try await movieListUseCase.loadMoreMovies()
+            let newMovies = try await movieListUseCase.fetchMovies(resetPagination: false)
             let existingIds = Set(movies.map { $0.id })
             let uniqueNewMovies = newMovies.filter { !existingIds.contains($0.id) }
             

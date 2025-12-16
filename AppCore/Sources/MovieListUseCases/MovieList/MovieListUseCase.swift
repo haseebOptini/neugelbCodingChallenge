@@ -14,18 +14,20 @@ public struct MovieListUseCase: MovieListUseCaseProtocol {
     }
 
     // MARK: - MovieListUseCaseProtocol
-    // TODO: Need to move these two functions into one rather than having multiple functions.
-    public func fetchNowPlayingMovies() async throws -> [Movie] {
-        await pageManager.reset()
-        let page = await pageManager.getCurrentPage()
-        let moviesDto = try await movieListRepository.fetchNowPlayingMovies(page: page)
-        await pageManager.incrementPage()
-        return map(moviesDto: moviesDto.movies)
-    }
-    
-    public func loadMoreMovies() async throws -> [Movie] {
+    public func fetchMovies(resetPagination: Bool = false) async throws -> [Movie] {
+        let hasMorePages = await pageManager.hasMorePages()
+        guard hasMorePages else {
+            return []
+        }
+
+        if resetPagination {
+            await pageManager.reset()
+        }
+
         let page = await pageManager.getNextPage()
         let moviesDto = try await movieListRepository.fetchNowPlayingMovies(page: page)
+
+        await pageManager.setTotalPages(moviesDto.totalPages)
         await pageManager.incrementPage()
         return map(moviesDto: moviesDto.movies)
     }
