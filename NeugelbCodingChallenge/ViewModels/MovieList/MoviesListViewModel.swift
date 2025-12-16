@@ -43,8 +43,8 @@ final class MoviesListViewModel: ObservableObject {
         }
     }
 
-    // TODO: Need to improve naming for better code readability. also check if we can make movie non optional
     func fetchMoreMoviesIfNeeded(currentMovie: Movie?) async {
+        // TODO: Need to check if we this piece of code can be improved for better code readability.
         guard let currentMovie = currentMovie,
               case .loaded(let currentMovies) = state,
               let index = currentMovies.firstIndex(where: { $0.id == currentMovie.id }),
@@ -58,9 +58,6 @@ final class MoviesListViewModel: ObservableObject {
     }
 
     private func loadMoreMovies() async {
-        guard !isLoadingMore else {
-            return
-        }
         isLoadingMore = true
         do {
             let newMovies = try await movieListUseCase.fetchMovies(resetPagination: false)
