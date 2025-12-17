@@ -13,5 +13,31 @@ public struct Movie: Sendable, Equatable, Hashable {
     public var adult: Bool
     public var backdropPath: String?
     public var genreIds: [Int]
+
+    public init(id: Int,
+                title: String,
+                originalTitle: String,
+                originalLanguage: String,
+                overview: String,
+                releaseDate: String,
+                posterPath: String?,
+                voteAverage: Double,
+                voteCount: Int,
+                adult: Bool,
+                backdropPath: String? = nil,
+                genreIds: [Int]) {
+        self.id = id
+        self.title = title
+        self.originalTitle = originalTitle
+        self.originalLanguage = originalLanguage
+        self.overview = overview
+        self.releaseDate = releaseDate
+        self.posterPath = posterPath
+        self.voteAverage = voteAverage
+        self.voteCount = voteCount
+        self.adult = adult
+        self.backdropPath = backdropPath
+        self.genreIds = genreIds
+    }
 }
 

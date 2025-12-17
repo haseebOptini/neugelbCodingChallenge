@@ -44,7 +44,6 @@ final class MoviesListViewModel: ObservableObject {
     }
 
     func fetchMoreMoviesIfNeeded(currentMovie: Movie?) async {
-        // TODO: Need to check if we this piece of code can be improved for better code readability.
         guard let currentMovie = currentMovie,
               case .loaded(let currentMovies) = state,
               let index = currentMovies.firstIndex(where: { $0.id == currentMovie.id }),
@@ -53,7 +52,6 @@ final class MoviesListViewModel: ObservableObject {
             return
         }
         print("alog::This is the time that we start loading more movies")
-        // Load more if not already loading
         await loadMoreMovies()
     }
 

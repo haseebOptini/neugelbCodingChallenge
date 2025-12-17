@@ -27,5 +27,57 @@ public struct MovieDetails: Sendable, Equatable {
     public let video: Bool
     public let voteAverage: Double?
     public let voteCount: Int?
+
+    public init(id: Int,
+                adult: Bool,
+                backdropPath: String?,
+                belongsToCollection: BelongsToCollection?,
+                budget: Int?,
+                genres: [Genre]?,
+                homepage: String?,
+                imdbId: String?,
+                originalLanguage: String,
+                originalTitle: String,
+                overview: String?,
+                popularity: Double?,
+                posterPath: String?,
+                productionCompanies: [ProductionCompany]?,
+                productionCountries: [ProductionCountry]?,
+                releaseDate: String?,
+                revenue: Int?,
+                runtime: Int?,
+                spokenLanguages: [SpokenLanguage]?,
+                status: String?,
+                tagline: String?,
+                title: String,
+                video: Bool,
+                voteAverage: Double?,
+                voteCount: Int?) {
+        self.id = id
+        self.adult = adult
+        self.backdropPath = backdropPath
+        self.belongsToCollection = belongsToCollection
+        self.budget = budget
+        self.genres = genres
+        self.homepage = homepage
+        self.imdbId = imdbId
+        self.originalLanguage = originalLanguage
+        self.originalTitle = originalTitle
+        self.overview = overview
+        self.popularity = popularity
+        self.posterPath = posterPath
+        self.productionCompanies = productionCompanies
+        self.productionCountries = productionCountries
+        self.releaseDate = releaseDate
+        self.revenue = revenue
+        self.runtime = runtime
+        self.spokenLanguages = spokenLanguages
+        self.status = status
+        self.tagline = tagline
+        self.title = title
+        self.video = video
+        self.voteAverage = voteAverage
+        self.voteCount = voteCount
+    }
 }
 

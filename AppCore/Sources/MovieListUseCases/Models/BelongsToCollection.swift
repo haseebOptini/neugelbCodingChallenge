@@ -6,6 +6,16 @@ public struct BelongsToCollection: Sendable, Equatable {
     public let name: String
     public let posterPath: String?
     public let backdropPath: String?
+
+    public init(id: Int,
+                name: String,
+                posterPath: String?,
+                backdropPath: String?) {
+        self.id = id
+        self.name = name
+        self.posterPath = posterPath
+        self.backdropPath = backdropPath
+    }
 }
 
 
