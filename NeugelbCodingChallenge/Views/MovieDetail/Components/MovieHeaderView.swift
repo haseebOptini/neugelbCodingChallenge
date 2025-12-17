@@ -1,16 +1,16 @@
 import SwiftUI
-import MovieListUseCases
 
 struct MovieHeaderView: View {
-    let movieDetails: MovieDetails
+    let title: String
+    let tagline: String?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(movieDetails.title)
+            Text(title)
                 .font(.largeTitle)
                 .fontWeight(.bold)
             
-            if let tagline = movieDetails.tagline, !tagline.isEmpty {
+            if let tagline = tagline, !tagline.isEmpty {
                 Text(tagline)
                     .font(.title3)
                     .foregroundColor(.secondary)

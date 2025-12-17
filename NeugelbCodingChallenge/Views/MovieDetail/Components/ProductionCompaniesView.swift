@@ -1,17 +1,21 @@
 import SwiftUI
-import MovieListUseCases
 
 struct ProductionCompaniesView: View {
-    let companies: [ProductionCompany]
+    let companies: [String]
     
     var body: some View {
-        InfoSection(title: "Production Companies") {
-            ForEach(companies, id: \.id) { company in
-                Text(company.name)
-                    .font(.body)
-                    .foregroundColor(.secondary)
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Production Companies")
+                .font(.headline)
+            VStack(alignment: .leading, spacing: 4) {
+                ForEach(companies, id: \.self) { company in
+                    Text(company)
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                }
             }
         }
+        .padding(.horizontal)
     }
 }
 

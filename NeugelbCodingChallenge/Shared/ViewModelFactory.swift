@@ -9,7 +9,10 @@ struct ViewModelFactory {
     static func makeMovieDetailsViewModel(movie: Movie) -> MovieDetailsViewModel {
         MovieDetailsViewModel(
             movie: movie,
-            movieDetailsUseCase: DIContainer.shared.movieDetailsUseCase()
+            movieDetailsUseCase: DIContainer.shared.movieDetailsUseCase(),
+            currencyFormatter: DIContainer.shared.currencyFormatter(),
+            runtimeFormatter: DIContainer.shared.runtimeFormatter(),
+            dateFormatter: DIContainer.shared.dateFormatter()
         )
     }
     

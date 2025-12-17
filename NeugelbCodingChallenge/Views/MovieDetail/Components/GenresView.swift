@@ -1,27 +1,29 @@
 import SwiftUI
-import MovieListUseCases
 
 struct GenresView: View {
-    let genres: [Genre]
+    let genres: [GenreDisplayModel]
     
     var body: some View {
-        InfoSection(title: "Genres") {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Genres")
+                .font(.headline)
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     ForEach(genres, id: \.id) { genre in
-                        GenreChip(genre: genre)
+                        GenreChip(name: genre.name)
                     }
                 }
             }
         }
+        .padding(.horizontal)
     }
 }
 
 struct GenreChip: View {
-    let genre: Genre
+    let name: String
     
     var body: some View {
-        Text(genre.name)
+        Text(name)
             .font(.caption)
             .padding(.horizontal, 12)
             .padding(.vertical, 6)

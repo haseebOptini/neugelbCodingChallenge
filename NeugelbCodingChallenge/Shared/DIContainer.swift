@@ -30,4 +30,17 @@ struct DIContainer {
     func searchMoviesUseCase() -> SearchMoviesUseCaseProtocol {
         SearchMoviesUseCase(movieListRepository: movieListRepository(), pageManager: pageManager())
     }
+    
+    // MARK: - Formatters
+    func currencyFormatter() -> CurrencyFormatterProtocol {
+        CurrencyFormatter()
+    }
+    
+    func runtimeFormatter() -> RuntimeFormatterProtocol {
+        RuntimeFormatter()
+    }
+    
+    func dateFormatter() -> DateFormatterProtocol {
+        MovieDateFormatter()
+    }
 }

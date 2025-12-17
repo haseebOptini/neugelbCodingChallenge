@@ -1,17 +1,21 @@
 import SwiftUI
-import MovieListUseCases
 
 struct ProductionCountriesView: View {
-    let countries: [ProductionCountry]
+    let countries: [String]
     
     var body: some View {
-        InfoSection(title: "Production Countries") {
-            ForEach(countries, id: \.iso31661) { country in
-                Text(country.name)
-                    .font(.body)
-                    .foregroundColor(.secondary)
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Production Countries")
+                .font(.headline)
+            VStack(alignment: .leading, spacing: 4) {
+                ForEach(countries, id: \.self) { country in
+                    Text(country)
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                }
             }
         }
+        .padding(.horizontal)
     }
 }
 

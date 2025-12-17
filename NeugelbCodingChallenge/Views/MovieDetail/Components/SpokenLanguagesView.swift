@@ -1,17 +1,21 @@
 import SwiftUI
-import MovieListUseCases
 
 struct SpokenLanguagesView: View {
-    let languages: [SpokenLanguage]
+    let languages: [String]
     
     var body: some View {
-        InfoSection(title: "Spoken Languages") {
-            ForEach(Array(languages.enumerated()), id: \.offset) { _, language in
-                Text(language.name ?? language.englishName ?? "")
-                    .font(.body)
-                    .foregroundColor(.secondary)
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Spoken Languages")
+                .font(.headline)
+            VStack(alignment: .leading, spacing: 4) {
+                ForEach(languages, id: \.self) { language in
+                    Text(language)
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                }
             }
         }
+        .padding(.horizontal)
     }
 }
 

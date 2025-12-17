@@ -23,8 +23,8 @@ struct MovieDetailsView: View {
             ProgressView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             
-        case .loaded(let movieDetailViewModel):
-            movieDetailsContent(movieDetails: movieDetailViewModel.movieDetails)
+        case .loaded(let displayModel):
+            movieDetailsContent(displayModel: displayModel)
             
         case .error:
             ErrorView {
@@ -34,39 +34,35 @@ struct MovieDetailsView: View {
     }
     
     @ViewBuilder
-    private func movieDetailsContent(movieDetails: MovieDetails) -> some View {
+    private func movieDetailsContent(displayModel: MovieDetailsDisplayModel) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                MoviePosterView(posterURL: movieDetails.posterPath)
-                MovieHeaderView(movieDetails: movieDetails)
+                moviePoster(posterURL: displayModel.posterURL)
+                MovieHeaderView(title: displayModel.title, tagline: displayModel.tagline)
                 
-                if let overview = movieDetails.overview, !overview.isEmpty {
-                    OverviewView(overview: overview)
+                if let overview = displayModel.overview, !overview.isEmpty {
+                    overviewSection(overview: overview)
                 }
                 
-                if let genres = movieDetails.genres, !genres.isEmpty {
-                    GenresView(genres: genres)
+                if !displayModel.genres.isEmpty {
+                    GenresView(genres: displayModel.genres)
                 }
                 
-                metadataSection(movieDetails: movieDetails)
+                metadataSection(displayModel: displayModel)
                 
-                if let companies = movieDetails.productionCompanies, !companies.isEmpty {
-                    ProductionCompaniesView(companies: companies)
+                if !displayModel.productionCompanies.isEmpty {
+                    ProductionCompaniesView(companies: displayModel.productionCompanies)
                 }
                 
-                if let countries = movieDetails.productionCountries, !countries.isEmpty {
-                    ProductionCountriesView(countries: countries)
+                if !displayModel.productionCountries.isEmpty {
+                    ProductionCountriesView(countries: displayModel.productionCountries)
                 }
                 
-                if let languages = movieDetails.spokenLanguages, !languages.isEmpty {
-                    SpokenLanguagesView(languages: languages)
+                if !displayModel.spokenLanguages.isEmpty {
+                    SpokenLanguagesView(languages: displayModel.spokenLanguages)
                 }
                 
-                financialInfoSection(movieDetails: movieDetails)
-                
-                if let homepage = movieDetails.homepage, !homepage.isEmpty {
-                    HomepageView(url: homepage)
-                }
+                financialInfoSection(displayModel: displayModel)
             }
             .padding(.vertical)
         }
@@ -74,39 +70,96 @@ struct MovieDetailsView: View {
     }
     
     @ViewBuilder
-    private func metadataSection(movieDetails: MovieDetails) -> some View {
+    private func metadataSection(displayModel: MovieDetailsDisplayModel) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            if let releaseDate = movieDetails.releaseDate, !releaseDate.isEmpty {
-                ReleaseDateView(releaseDate: releaseDate)
+            if let releaseDate = displayModel.releaseDate {
+                releaseDateSection(releaseDate: releaseDate)
             }
             
-            if let runtime = movieDetails.runtime {
-                RuntimeView(runtime: runtime)
+            if let runtime = displayModel.runtime {
+                runtimeSection(runtime: runtime)
             }
             
-            if let voteAverage = movieDetails.voteAverage {
-                RatingView(voteAverage: voteAverage, voteCount: movieDetails.voteCount)
+            if let rating = displayModel.rating {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Rating")
+                        .font(.headline)
+                    RatingView(rating: rating, voteCount: displayModel.voteCount)
+                }
+                .padding(.horizontal)
             }
         }
     }
     
     @ViewBuilder
-    private func financialInfoSection(movieDetails: MovieDetails) -> some View {
+    private func overviewSection(overview: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Overview")
+                .font(.headline)
+            Text(overview)
+                .font(.body)
+                .foregroundColor(.secondary)
+        }
+        .padding(.horizontal)
+    }
+    
+    @ViewBuilder
+    private func releaseDateSection(releaseDate: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Release Date")
+                .font(.headline)
+            Text(releaseDate)
+                .font(.body)
+                .foregroundColor(.secondary)
+        }
+        .padding(.horizontal)
+    }
+    
+    @ViewBuilder
+    private func runtimeSection(runtime: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Runtime")
+                .font(.headline)
+            Text(runtime)
+                .font(.body)
+                .foregroundColor(.secondary)
+        }
+        .padding(.horizontal)
+    }
+    
+    @ViewBuilder
+    private func moviePoster(posterURL: String?) -> some View {
+        if let posterURL = posterURL {
+            ImageView(imageURL: posterURL)
+                .frame(height: 400)
+                .clipped()
+                .cornerRadius(8)
+        }
+    }
+    
+    @ViewBuilder
+    private func financialInfoSection(displayModel: MovieDetailsDisplayModel) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            if let budget = movieDetails.budget, budget > 0 {
-                InfoSection(title: "Budget") {
-                    Text(CurrencyFormatter.format(budget))
+            if let budget = displayModel.budget {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Budget")
+                        .font(.headline)
+                    Text(budget)
                         .font(.body)
                         .foregroundColor(.secondary)
                 }
+                .padding(.horizontal)
             }
             
-            if let revenue = movieDetails.revenue, revenue > 0 {
-                InfoSection(title: "Revenue") {
-                    Text(CurrencyFormatter.format(revenue))
+            if let revenue = displayModel.revenue {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Revenue")
+                        .font(.headline)
+                    Text(revenue)
                         .font(.body)
                         .foregroundColor(.secondary)
                 }
+                .padding(.horizontal)
             }
         }
     }
