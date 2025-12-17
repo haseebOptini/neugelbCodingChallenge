@@ -10,6 +10,7 @@ enum Path: String
 {
     case nowPlaying = "/3/movie/now_playing"
     case details = "/3/movie"
+    case searchMovies = "/3/search/movie"
 }
 
 enum AccessToken: String {

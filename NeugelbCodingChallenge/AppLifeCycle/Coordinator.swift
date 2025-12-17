@@ -2,7 +2,6 @@ import Foundation
 import MovieListUseCases
 
 enum Route: Hashable {
-    case moviesList
     case movieDetail(Movie)
 }
 

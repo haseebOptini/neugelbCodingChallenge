@@ -26,4 +26,8 @@ struct DIContainer {
     func movieDetailsUseCase() -> MovieDetailsUseCaseProtocol {
         MovieDetailsUseCase(movieListRepository: movieListRepository())
     }
+    
+    func searchMoviesUseCase() -> SearchMoviesUseCaseProtocol {
+        SearchMoviesUseCase(movieListRepository: movieListRepository(), pageManager: pageManager())
+    }
 }

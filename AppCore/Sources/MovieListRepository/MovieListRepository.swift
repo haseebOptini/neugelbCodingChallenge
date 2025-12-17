@@ -17,5 +17,9 @@ public struct MovieListRepository: MovieListRepositoryProtocol {
         let endPoint = MoviesDetailsEndPoint(movieId: id)
         return try await networkManager.request(endPoint, type: MovieDetailsDTO.self)
     }
-
+    
+    public func searchMovies(query: String, page: Int = 1) async throws -> MoviesDTO {
+        let endPoint = SearchMoviesEndPoint(query: query, page: page)
+        return try await networkManager.request(endPoint, type: MoviesDTO.self)
+    }
 }

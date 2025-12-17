@@ -12,5 +12,9 @@ struct ViewModelFactory {
             movieDetailsUseCase: DIContainer.shared.movieDetailsUseCase()
         )
     }
+    
+    static func makeSearchViewModel() -> SearchViewModel {
+        SearchViewModel(searchMoviesUseCase: DIContainer.shared.searchMoviesUseCase())
+    }
 }
 

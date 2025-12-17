@@ -25,7 +25,7 @@ public struct MoviesDetailsEndPoint: EndpointProtocol {
     public var headers: [String: String]? {
         return [
             "accept": "application/json",
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNWRiZmJkYWVmNTFkNTUxNDNhZWI0Y2RhMDEwZTY5ZiIsIm5iZiI6MTQ2NTMxMTYyNi4wNDQsInN1YiI6IjU3NTZlMTg5OTI1MTQxNmUyZDAwMzBhOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BZpM44cUZqQxRPApqlhU8IHCsRt3_80gw_LD3xOlviU"
+            "Authorization": AccessToken.tmdb.rawValue
             
         ]
     }

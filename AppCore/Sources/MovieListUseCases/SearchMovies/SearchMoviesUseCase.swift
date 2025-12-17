@@ -2,36 +2,37 @@ import Foundation
 import MovieListRepository
 import NetworkManager
 
-public struct MovieListUseCase: MovieListUseCaseProtocol {
+public struct SearchMoviesUseCase: SearchMoviesUseCaseProtocol {
     // MARK: - Private properties
     private let movieListRepository: MovieListRepositoryProtocol
     private let pageManager: PageManagerActorProtocol
-
+    
     // MARK: - Init
     public init(movieListRepository: MovieListRepositoryProtocol, pageManager: PageManagerActorProtocol) {
         self.movieListRepository = movieListRepository
         self.pageManager = pageManager
     }
-
-    // MARK: - MovieListUseCaseProtocol
-    public func fetchMovies(resetPagination: Bool = false) async throws -> [Movie] {
-        let hasMorePages = await pageManager.hasMorePages()
-        guard hasMorePages else {
-            return []
-        }
-
+    
+    // MARK: - SearchMoviesUseCaseProtocol
+    public func searchMovies(query: String, resetPagination: Bool = false) async throws -> [Movie] {
         if resetPagination {
             await pageManager.reset()
         }
-
+        
+        let hasMorePages = await pageManager.hasMorePages()
+        guard hasMorePages else {
+            print("alog::SeachMoviesUseCase::searchMovies - No more pages")
+            return []
+        }
+        
         let page = await pageManager.getCurrentPage()
-        let moviesDto = try await movieListRepository.fetchNowPlayingMovies(page: page)
-
+        let moviesDto = try await movieListRepository.searchMovies(query: query, page: page)
+        
         await pageManager.setTotalPages(moviesDto.totalPages)
         await pageManager.incrementPage()
         return map(moviesDto: moviesDto.movies)
     }
-
+    
     // MARK: - Private methods
     private func map(moviesDto: [MovieDTO]) -> [Movie] {
         moviesDto.map { dto in
@@ -56,5 +57,5 @@ public struct MovieListUseCase: MovieListUseCaseProtocol {
                          genreIds: dto.genreIds)
         }
     }
-
 }
+
