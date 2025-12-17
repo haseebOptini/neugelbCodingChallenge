@@ -27,7 +27,58 @@ public struct MovieDetailsDTO: Identifiable, Sendable, Codable {
     public let video: Bool
     public let voteAverage: Double?
     public let voteCount: Int?
-    
+
+    public init(adult: Bool,
+         backdropPath: String?,
+         belongsToCollection: BelongsToCollectionDTO?,
+         budget: Int?,
+         genres: [GenreDTO]?,
+         homepage: String?,
+         id: Int,
+         imdbId: String?,
+         originalLanguage: String,
+         originalTitle: String,
+         overview: String?,
+         popularity: Double?,
+         posterPath: String?,
+         productionCompanies: [ProductionCompanyDTO]?,
+         productionCountries: [ProductionCountryDTO]?,
+         releaseDate: String?,
+         revenue: Int?,
+         runtime: Int?,
+         spokenLanguages: [SpokenLanguageDTO]?,
+         status: String?,
+         tagline: String?,
+         title: String,
+         video: Bool,
+         voteAverage: Double?,
+         voteCount: Int?) {
+        self.adult = adult
+        self.backdropPath = backdropPath
+        self.belongsToCollection = belongsToCollection
+        self.budget = budget
+        self.genres = genres
+        self.homepage = homepage
+        self.id = id
+        self.imdbId = imdbId
+        self.originalLanguage = originalLanguage
+        self.originalTitle = originalTitle
+        self.overview = overview
+        self.popularity = popularity
+        self.posterPath = posterPath
+        self.productionCompanies = productionCompanies
+        self.productionCountries = productionCountries
+        self.releaseDate = releaseDate
+        self.revenue = revenue
+        self.runtime = runtime
+        self.spokenLanguages = spokenLanguages
+        self.status = status
+        self.tagline = tagline
+        self.title = title
+        self.video = video
+        self.voteAverage = voteAverage
+        self.voteCount = voteCount
+    }
     enum CodingKeys: String, CodingKey {
         case adult
         case backdropPath = "backdrop_path"

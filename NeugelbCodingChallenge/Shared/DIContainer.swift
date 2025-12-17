@@ -15,7 +15,7 @@ struct DIContainer {
         MovieListRepository(networkManager: networkManager())
     }
     
-    func pageManager() -> PageManagerActorProtocol {
+    func pageManager() -> PageManagerProtocol {
         PageManagerActor()
     }
     

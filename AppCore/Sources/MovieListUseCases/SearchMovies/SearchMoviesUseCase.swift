@@ -5,10 +5,10 @@ import NetworkManager
 public struct SearchMoviesUseCase: SearchMoviesUseCaseProtocol {
     // MARK: - Private properties
     private let movieListRepository: MovieListRepositoryProtocol
-    private let pageManager: PageManagerActorProtocol
+    private let pageManager: PageManagerProtocol
     
     // MARK: - Init
-    public init(movieListRepository: MovieListRepositoryProtocol, pageManager: PageManagerActorProtocol) {
+    public init(movieListRepository: MovieListRepositoryProtocol, pageManager: PageManagerProtocol) {
         self.movieListRepository = movieListRepository
         self.pageManager = pageManager
     }
@@ -21,7 +21,7 @@ public struct SearchMoviesUseCase: SearchMoviesUseCaseProtocol {
         
         let hasMorePages = await pageManager.hasMorePages()
         guard hasMorePages else {
-            print("alog::SeachMoviesUseCase::searchMovies - No more pages")
+            print("alog::SearchMoviesUseCase::searchMovies - No more pages")
             return []
         }
         

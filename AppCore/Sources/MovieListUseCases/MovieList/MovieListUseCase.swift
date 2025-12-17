@@ -5,10 +5,10 @@ import NetworkManager
 public struct MovieListUseCase: MovieListUseCaseProtocol {
     // MARK: - Private properties
     private let movieListRepository: MovieListRepositoryProtocol
-    private let pageManager: PageManagerActorProtocol
+    private let pageManager: PageManagerProtocol
 
     // MARK: - Init
-    public init(movieListRepository: MovieListRepositoryProtocol, pageManager: PageManagerActorProtocol) {
+    public init(movieListRepository: MovieListRepositoryProtocol, pageManager: PageManagerProtocol) {
         self.movieListRepository = movieListRepository
         self.pageManager = pageManager
     }

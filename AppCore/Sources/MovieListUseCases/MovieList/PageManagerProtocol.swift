@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol PageManagerActorProtocol: Actor {
+public protocol PageManagerProtocol {
     func getCurrentPage() async -> Int
     func getNextPage() async -> Int
     func incrementPage() async
